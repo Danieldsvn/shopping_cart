@@ -23,28 +23,20 @@ function createProductItemElement({ sku, name, image }) {
   items.appendChild(section);  
 }
 
-// Testes para requisito 1 início
-// objetoTeste = {
-//   id: "MLB2103802484",
-//   title: "Fonte De Alimentação Para Pc Knup Kp-526 350w  Prata 110v/220v",
-//   thumbnail: "http://http2.mlstatic.com/D_876439-MLA45719368931_042021-I.jpg",  
-// };
-
-// createProductItemElement(objetoTeste);
-// Testes para requisito 1 fim
-
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  // coloque seu código aqui  
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
+  const olCartItems = document.querySelector('.cart__items');   
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  olCartItems.appendChild(li);  
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
@@ -61,6 +53,31 @@ const itemsBorn = async () => {
 
 itemsBorn();
 // Requisito 1 fim
+
+// Requisito 2 início
+
+const itemsToCart = async (skull) => {
+  const item = await fetchItem(skull);  
+  const { id, title, price } = item;
+  createCartItemElement({ sku: id, name: title, salePrice: price });
+};
+
+const skullCatcher = () => {
+  const items = document.querySelector('.items');
+  items.addEventListener('click', (event) => {
+    if (event.target.className === 'item__add') {
+      const elementoPai = event.target.parentNode;
+      const elementoSkull = elementoPai.firstChild;
+      const skull = elementoSkull.innerText;
+      itemsToCart(skull);
+    }    
+  });   
+};
+
+skullCatcher();
+
+// Requisito 2 fim
 window.onload = () => {
   fetchProducts();
+  fetchItem();
 };

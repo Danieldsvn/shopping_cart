@@ -6,15 +6,6 @@ const fetchProducts = async () => {
   return data;      
 };
 
-// const {id, title, thumbnail} = product;      
-//       const objeto = {
-//         id: id,
-//         title: title,
-//         thumbnail: thumbnail,
-//       };
-//       console.log(objeto);
-// console.log(fetchProducts());
-
 if (typeof module !== 'undefined') {
   module.exports = {
     fetchProducts,
