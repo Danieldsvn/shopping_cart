@@ -26,20 +26,24 @@ function createProductItemElement({ sku, name, image }) {
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
-
-function cartItemClickListener(event) {  
+// Requisito 3 início
+function cartItemClickListener(event) { 
+  localStorage.removeItem(event.target.innerText);  
   event.target.remove(); 
 }
-
+// Requisito 3 fim
 function createCartItemElement({ sku, name, salePrice }) {
   const olCartItems = document.querySelector('.cart__items');   
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  olCartItems.appendChild(li);  
+  olCartItems.appendChild(li);
+  localStorage.setItem(li.innerText, JSON.stringify({ sku, name, salePrice }));   
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
+
+// localStorage.sentItem('comida', 'tapioca');
 
 // Requisito 1 início
 const itemsBorn = async () => {
@@ -75,9 +79,21 @@ const skullCatcher = () => {
 };
 
 skullCatcher();
-
 // Requisito 2 fim
+// Requisito 6 inicio
+const juliusMode = () => {
+  const removeAllButton = document.querySelector('.empty-cart');
+removeAllButton.addEventListener('click', () => {
+  const allItens = document.querySelectorAll('.cart__item');
+  allItens.forEach((item) => item.remove());
+});
+};
+
+juliusMode();
+// Requisito 6 fim
+// localStorage.setItem('comida', 'tapioca');
+
 window.onload = () => {
   fetchProducts();
-  fetchItem();
+  fetchItem();      
 };
