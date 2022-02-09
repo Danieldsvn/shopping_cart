@@ -26,10 +26,29 @@ function createProductItemElement({ sku, name, image }) {
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
+// Requisito 5 inicio
+const subTotalCart = () => {
+  const lisCart = document.querySelectorAll('.cart__item');  
+  let acumuladorPrecos = 0;
+  // const nextLi = document.createElement('div'); 
+  lisCart.forEach((li) => {
+    const arrayLi = li.innerText.split('$');    
+    const valorItem = parseFloat(arrayLi[1]);    
+    // nextLi.innerText = valorItem;
+    // li.before(nextLi);
+    acumuladorPrecos += valorItem;
+  });
+  const totalPriceDiv = document.querySelector('.total-price');
+  // totalPriceDiv.innerText = `Subtotal: R$ ${acumuladorPrecos}`;
+  totalPriceDiv.innerText = acumuladorPrecos;   
+};
+
+// Requisito 5 fim
 // Requisito 3 início
 function cartItemClickListener(event) { 
-  localStorage.removeItem(event.target.innerText);  
-  event.target.remove(); 
+  // localStorage.removeItem(event.target.innerText);  
+  event.target.remove();
+  subTotalCart(); 
 }
 // Requisito 3 fim
 function createCartItemElement({ sku, name, salePrice }) {
@@ -38,8 +57,9 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   olCartItems.appendChild(li);
-  localStorage.setItem(li.innerText, JSON.stringify({ sku, name, salePrice }));   
+  // localStorage.setItem(li.innerText, JSON.stringify({ sku, name, salePrice }));   
   li.addEventListener('click', cartItemClickListener);
+  subTotalCart();
   return li;
 }
 
@@ -80,17 +100,20 @@ const skullCatcher = () => {
 
 skullCatcher();
 // Requisito 2 fim
+
 // Requisito 6 inicio
 const juliusMode = () => {
   const removeAllButton = document.querySelector('.empty-cart');
 removeAllButton.addEventListener('click', () => {
   const allItens = document.querySelectorAll('.cart__item');
   allItens.forEach((item) => item.remove());
+  subTotalCart();
 });
 };
 
 juliusMode();
 // Requisito 6 fim
+
 // localStorage.setItem('comida', 'tapioca');
 
 window.onload = () => {
