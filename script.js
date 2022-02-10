@@ -1,3 +1,20 @@
+// Requisito 7 inicio
+const loadingOn = () => {
+  const loadingMessage = document.createElement('div');
+  loadingMessage.className = 'loading';
+  loadingMessage.innerText = 'carregando...';
+  const container = document.querySelector('.items');
+  container.appendChild(loadingMessage);  
+};
+
+const loadingOff = () => {
+  const loadingMessage = document.querySelector('.loading');
+  loadingMessage.remove();  
+};
+
+// Requisito 7 fim
+loadingOn(); 
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -19,7 +36,7 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));  
-  const items = document.querySelector('.items');
+  const items = document.querySelector('.items');  
   items.appendChild(section);  
 }
 
@@ -66,9 +83,10 @@ function createCartItemElement({ sku, name, salePrice }) {
 // localStorage.sentItem('comida', 'tapioca');
 
 // Requisito 1 início
-const itemsBorn = async () => {
+const itemsBorn = async () => {  
   const fetchProductsArray = await fetchProducts();
   const items = fetchProductsArray.results;
+  loadingOff();  
   items.forEach((item) => {
     const { id, title, thumbnail } = item;    
     createProductItemElement({ sku: id, name: title, image: thumbnail });    
@@ -118,5 +136,5 @@ juliusMode();
 
 window.onload = () => {
   fetchProducts();
-  fetchItem();      
+  fetchItem();       
 };
