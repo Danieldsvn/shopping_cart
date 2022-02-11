@@ -65,7 +65,9 @@ const subTotalCart = () => {
 function cartItemClickListener(event) { 
   // localStorage.removeItem(event.target.innerText);  
   event.target.remove();
-  subTotalCart(); 
+  saveCartItems();
+  subTotalCart();
+  // removeOneFromStorage(event);   
 }
 // Requisito 3 fim
 function createCartItemElement({ sku, name, salePrice }) {
@@ -77,6 +79,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   // localStorage.setItem(li.innerText, JSON.stringify({ sku, name, salePrice }));   
   li.addEventListener('click', cartItemClickListener);
   subTotalCart();
+  // saveCartItems();
   return li;
 }
 
@@ -126,6 +129,7 @@ removeAllButton.addEventListener('click', () => {
   const allItens = document.querySelectorAll('.cart__item');
   allItens.forEach((item) => item.remove());
   subTotalCart();
+  localStorage.clear();
 });
 };
 
