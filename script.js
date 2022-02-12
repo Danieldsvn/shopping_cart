@@ -46,28 +46,22 @@ function getSkuFromProductItem(item) {
 // Requisito 5 inicio
 const subTotalCart = () => {
   const lisCart = document.querySelectorAll('.cart__item');  
-  let acumuladorPrecos = 0;
-  // const nextLi = document.createElement('div'); 
+  let acumuladorPrecos = 0;   
   lisCart.forEach((li) => {
     const arrayLi = li.innerText.split('$');    
     const valorItem = parseFloat(arrayLi[1]);    
-    // nextLi.innerText = valorItem;
-    // li.before(nextLi);
     acumuladorPrecos += valorItem;
   });
-  const totalPriceDiv = document.querySelector('.total-price');
-  // totalPriceDiv.innerText = `Subtotal: R$ ${acumuladorPrecos}`;
+  const totalPriceDiv = document.querySelector('.total-price');  
   totalPriceDiv.innerText = acumuladorPrecos;   
 };
 
 // Requisito 5 fim
 // Requisito 3 início
-function cartItemClickListener(event) { 
-  // localStorage.removeItem(event.target.innerText);  
+function cartItemClickListener(event) {   
   event.target.remove();
   saveCartItems();
-  subTotalCart();
-  // removeOneFromStorage(event);   
+  subTotalCart();     
 }
 // Requisito 3 fim
 function createCartItemElement({ sku, name, salePrice }) {
@@ -75,21 +69,20 @@ function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  olCartItems.appendChild(li);
-  // localStorage.setItem(li.innerText, JSON.stringify({ sku, name, salePrice }));   
+  olCartItems.appendChild(li);     
   li.addEventListener('click', cartItemClickListener);
   subTotalCart();
-  // saveCartItems();
+  saveCartItems();
   return li;
 }
-
-// localStorage.sentItem('comida', 'tapioca');
 
 // Requisito 1 início
 const itemsBorn = async () => {  
   const fetchProductsArray = await fetchProducts();
-  const items = fetchProductsArray.results;
-  loadingOff();  
+  loadingOff();
+  getSavedCartItems();
+  subTotalCart(); 
+  const items = fetchProductsArray.results;   
   items.forEach((item) => {
     const { id, title, thumbnail } = item;    
     createProductItemElement({ sku: id, name: title, image: thumbnail });    
@@ -136,9 +129,7 @@ removeAllButton.addEventListener('click', () => {
 juliusMode();
 // Requisito 6 fim
 
-// localStorage.setItem('comida', 'tapioca');
-
 window.onload = () => {
   fetchProducts();
-  fetchItem();       
+  fetchItem();           
 };
