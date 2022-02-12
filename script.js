@@ -129,7 +129,4 @@ removeAllButton.addEventListener('click', () => {
 juliusMode();
 // Requisito 6 fim
 
-window.onload = () => {
-  fetchProducts();
-  fetchItem();           
-};
+window.onload = () => { };
