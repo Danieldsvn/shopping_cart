@@ -1,5 +1,4 @@
-const fetchProducts = async (product) => {
-  // seu código aqui  
+const fetchProducts = async (product) => {    
   if (product === undefined) {
     throw new Error('You must provide an url');
   }  
