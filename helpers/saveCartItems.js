@@ -1,5 +1,5 @@
-const saveCartItems = (item) => {
-  localStorage.setItem('Items', item); // linha incluida para passar no teste com a minha lógica do requisito 4  
+const saveCartItems = (itemCart) => {
+  localStorage.setItem('Items', itemCart); // linha incluida para passar no teste com a minha lógica do requisito 4  
   const allCartItems = document.querySelectorAll('.cart__item');
   allCartItems.forEach((item, indice) => {
     localStorage.setItem(indice, item.innerText);
