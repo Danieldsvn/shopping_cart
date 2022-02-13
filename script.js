@@ -40,9 +40,9 @@ function createProductItemElement({ sku, name, image }) {
   items.appendChild(section);  
 }
 
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
+// function getSkuFromProductItem(item) {
+//   return item.querySelector('span.item__sku').innerText;
+// }
 // Requisito 5 inicio
 const subTotalCart = () => {
   const lisCart = document.querySelectorAll('.cart__item');  
@@ -77,8 +77,8 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 // Requisito 1 início
-const itemsBorn = async () => {  
-  const fetchProductsArray = await fetchProducts();
+const itemsBorn = async (product) => {  
+  const fetchProductsArray = await fetchProducts(product);
   loadingOff();
   getSavedCartItems();
   subTotalCart(); 
@@ -89,7 +89,7 @@ const itemsBorn = async () => {
   });  
 };
 
-itemsBorn();
+itemsBorn('computador');
 // Requisito 1 fim
 
 // Requisito 2 início
