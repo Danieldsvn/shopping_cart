@@ -1,3 +1,35 @@
+const cartItems = document.querySelector('.cart__items');
+
+// Requisito 5 inicio
+const subTotalCart = () => {
+  const lisCart = document.querySelectorAll('.cart__item');  
+  let acumuladorPrecos = 0;   
+  lisCart.forEach((li) => {
+    const arrayLi = li.innerText.split('$');    
+    const valorItem = parseFloat(arrayLi[1]);    
+    acumuladorPrecos += valorItem;
+  });
+  const totalPriceDiv = document.querySelector('.total-price');  
+  totalPriceDiv.innerText = acumuladorPrecos;   
+};
+
+// Requisito 5 fim
+
+// Requisito 3 início
+function cartItemClickListener(event) {   
+  event.target.remove();  
+  subTotalCart();  
+  saveCartItems(cartItems.innerHTML);     
+}
+// Requisito 3 fim
+
+const getCartFromStorage = () => {
+  cartItems.innerHTML = getSavedCartItems(); 
+  cartItems.addEventListener('click', cartItemClickListener);
+};
+
+getCartFromStorage();
+
 // Requisito 7 inicio
 const loadingOn = () => {
   const loadingMessage = document.createElement('div');
@@ -40,52 +72,28 @@ function createProductItemElement({ sku, name, image }) {
   items.appendChild(section);  
 }
 
-// function getSkuFromProductItem(item) {
-//   return item.querySelector('span.item__sku').innerText;
-// }
-// Requisito 5 inicio
-const subTotalCart = () => {
-  const lisCart = document.querySelectorAll('.cart__item');  
-  let acumuladorPrecos = 0;   
-  lisCart.forEach((li) => {
-    const arrayLi = li.innerText.split('$');    
-    const valorItem = parseFloat(arrayLi[1]);    
-    acumuladorPrecos += valorItem;
-  });
-  const totalPriceDiv = document.querySelector('.total-price');  
-  totalPriceDiv.innerText = acumuladorPrecos;   
-};
-
-// Requisito 5 fim
-// Requisito 3 início
-function cartItemClickListener(event) {   
-  event.target.remove();
-  saveCartItems();
-  subTotalCart();     
-}
-// Requisito 3 fim
-function createCartItemElement({ sku, name, salePrice }) {
-  const olCartItems = document.querySelector('.cart__items');   
+function createCartItemElement({ sku, name, salePrice }) { 
+  const olCartItems = document.querySelector('.cart__items');     
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   olCartItems.appendChild(li);     
   li.addEventListener('click', cartItemClickListener);
-  subTotalCart();
-  saveCartItems();
+  subTotalCart();      
   return li;
 }
+// Requisito 4 inicio
 
+// Requisito 4 fim
 // Requisito 1 início
 const itemsBorn = async (product) => {  
   const fetchProductsArray = await fetchProducts(product);
-  loadingOff();
-  getSavedCartItems();
+  loadingOff();  
   subTotalCart(); 
   const items = fetchProductsArray.results;   
   items.forEach((item) => {
     const { id, title, thumbnail } = item;    
-    createProductItemElement({ sku: id, name: title, image: thumbnail });    
+    createProductItemElement({ sku: id, name: title, image: thumbnail });       
   });  
 };
 
@@ -97,7 +105,8 @@ itemsBorn('computador');
 const itemsToCart = async (skull) => {
   const item = await fetchItem(skull);  
   const { id, title, price } = item;
-  createCartItemElement({ sku: id, name: title, salePrice: price });
+  createCartItemElement({ sku: id, name: title, salePrice: price });  
+  saveCartItems(cartItems.innerHTML);    
 };
 
 const skullCatcher = () => {
@@ -122,7 +131,7 @@ removeAllButton.addEventListener('click', () => {
   const allItens = document.querySelectorAll('.cart__item');
   allItens.forEach((item) => item.remove());
   subTotalCart();
-  localStorage.clear();
+  saveCartItems('');
 });
 };
 
